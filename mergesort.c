@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define COUNT 6
+#define COUNT 100
 
 void print_arr (int buff[], int len){
     for (int i=0; i<len; i++)
@@ -11,9 +11,7 @@ void print_arr (int buff[], int len){
 void merge_sort(int *arr, int len) {    
     if (len > 1) {
         int mid = len / 2;
-        print_arr(arr, mid);
         merge_sort(arr, mid);
-        print_arr(arr + mid, mid + len % 2);
         merge_sort(arr + mid, mid + len % 2);
         int i=0, j=0, k=0;
         int L[mid], R[mid + len % 2];
@@ -33,7 +31,7 @@ void merge_sort(int *arr, int len) {
             k++;     
         }
         while (i < mid) {arr[k] = L[i]; k++; i++;}
-        while (j < mid + len % 2) {arr[k] = R[j];}
+        while (j < mid + len % 2) {arr[k] = R[j]; k++; j++;}
         
     }
 }
@@ -42,10 +40,12 @@ int main (void) {
     int numbers[COUNT];
     //generate random array
     for (int i=0; i < COUNT; i++){
-        numbers[i] = rand() % 6;
+        numbers[i] = rand() % (COUNT + 1);
     }
+    printf("Unsorted array:\n");
     print_arr(numbers, COUNT); printf("\n");
-    merge_sort(numbers, COUNT);
+    merge_sort(numbers, COUNT); printf("\n");
+    printf("Sorted array:\n");
     print_arr(numbers, COUNT); printf("\n");
     return 0;
 }
