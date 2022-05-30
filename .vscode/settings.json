@@ -8,6 +8,7 @@
         "limits.h": "c",
         "float.h": "c",
         "cstdlib": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "stdbool.h": "c"
     }
 }
