@@ -14,6 +14,5 @@ int main(void){
   char c;
   while ((c = getchar()) != EOF)
     printf("scanned character\n");
-
- return 0;
-}
+  return 0; 
+  }
