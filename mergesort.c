@@ -38,10 +38,21 @@ void merge_sort(int *arr, int len) {
 
 int main (void) {
     int numbers[COUNT];
+    srand(rand());
     //generate random array
-    for (int i=0; i < COUNT; i++){
-        numbers[i] = rand() % (COUNT + 1);
+    for (int i=1; i <= COUNT; i++){
+        numbers[i] = i;
     }
+    for (int i=0; i < COUNT; i++)
+        {
+            size_t j = i + rand() / (RAND_MAX / (COUNT - i) + 1);
+            int t = numbers[j];
+            numbers[j] = numbers[i];
+            numbers[i] = t;
+        }
+
+
+
     printf("Unsorted array:\n");
     print_arr(numbers, COUNT); printf("\n");
     merge_sort(numbers, COUNT); printf("\n");
