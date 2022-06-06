@@ -1,3 +1,5 @@
+/* My C iimplementation of a recursive merge sort function */
+
 #include <stdio.h>
 #include <stdlib.h>
 

@@ -1,3 +1,5 @@
+/* This is a command-line clock in C, made with \r */
+
 #include <stdio.h>
 #include <time.h>
 

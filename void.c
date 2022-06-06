@@ -11,3 +11,4 @@ int main(void) {
     printf("%d\n", foo(p_a, p_b));
     return 0;
 }
+//an attempt at so-called type punning

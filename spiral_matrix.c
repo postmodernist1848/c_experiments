@@ -1,3 +1,7 @@
+/* This program is a C port of my spiral_matrix.py - a Python implementation of
+the same algorithm that prints a matrix of a given size onto the screen, filling it in a spiral pattern */
+
+
 #include <stdio.h>
 
 int main (void) {
