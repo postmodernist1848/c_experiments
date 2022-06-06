@@ -1,8 +1,9 @@
-if [ $# -lt 1 ]; then echo "Error: not enough arguments."; exit 1
+#! /bin/bash
+# A simple script to compile and run a single C file.
+if [ $# -lt 1 ]; then echo "Error: not enough arguments." > /dev/stderr; exit 1
+elif [ $# - gt 1 ]; then echo "Error: too many arguments." > /dev/stderr; exit 1
 else
-for f in "$@"
-do  
+    CFLAGS="-Wall -Wextra"
     exe="${f%.*}"
-    gcc $f -Wall -o $exe && ./$exe; rm $exe 
-done
+    if gcc $f CFLAGS -o $exe && ./$exe; rm $exe 
 fi
