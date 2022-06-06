@@ -5,5 +5,5 @@ elif [ $# - gt 1 ]; then echo "Error: too many arguments." > /dev/stderr; exit 1
 else
     CFLAGS="-Wall -Wextra"
     exe="${f%.*}"
-    if gcc $f CFLAGS -o $exe && ./$exe; rm $exe 
+    if gcc $f $CFLAGS -o $exe && ./$exe; rm $exe 
 fi
