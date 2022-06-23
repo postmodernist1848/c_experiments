@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <time.h>
 
-void delay(int number_of_seconds)
+void delay(int number_of_milliseconds)
 {
-    int milli_seconds = 1000 * number_of_seconds;
+    int nanoseconds = 1000 * number_of_milliseconds;
     clock_t start_time = clock();
-    while (clock() < start_time + milli_seconds);
+    while (clock() < start_time + nanoseconds);
 }
 
 int main (void) {
