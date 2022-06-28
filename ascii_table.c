@@ -2,7 +2,7 @@
 
 #define ROWS 15
 int main (void) {
-    for (int i; i < ROWS; i++) {
+    for (int i=0; i < ROWS; i++) {
         for (int j=0; j < 7; j++) {
             char c = '!' + j * ROWS + i;
             if (c >= 127 || c < 0) break;
