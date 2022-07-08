@@ -9,6 +9,8 @@ int main(void) {
     int *p_a = &a;
     int *p_b = &b;
     printf("%d\n", foo(p_a, p_b));
+    void * p;
+    printf("%zu\n", sizeof(p) * 8);
     return 0;
 }
 //an attempt at so-called type punning

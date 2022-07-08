@@ -4,6 +4,13 @@
 #include <string.h>
 #include <math.h>
 
+// Clear command for building on Windows.
+#ifdef _WIN32
+#define clrscr "cls"
+#else
+#define clrscr "clear"
+#endif
+
 #define MAXLINE 1024
 #define MAXWORD 256
 #define tracing 0
@@ -16,8 +23,8 @@ double pop(void);
 void clear(void);
 int check_stack(void);
 void print_help(void);
+int execute_word(char word[]);
 
-int line_pos;
 
 enum { NUMBER, 
     PLUS, 
@@ -43,114 +50,48 @@ enum { NUMBER,
     HELP
 };
 
+//globals
+double last=0; 
+int print=0;
+int line_pos;
 
-int main(void) {
-    printf("ULTIMATE REVERSE POLISH CALCULATOR V2.0 (urvpc2)\nUse `help` for available features.\n>> ");
+int main(int argc, char *argv[]) {
     char line[MAXLINE];
     char word[MAXWORD];
-    double last=0; 
-    int type, print=0;
-    double op1, op2, vars[26];
 
-    while ((get_line(line, MAXLINE)) > 0) {
-        line_pos=0;
-        while (read_word(line, word) > 0) {
-            switch ((type = optype(word))) {
-                case NUMBER:
-                    push(atof(word));
-                    break;
-                case PLUS:
-                    push(pop() + pop());
-                    break;
-                case MUL:
-                    push(pop() * pop());
-                    break;
-                case MINUS:
-                    op2 = pop();
-                    push(pop() - op2);
-                    break;
-                case DIV:
-                    op2 = pop();
-                    if (op2 != 0.0)
-                        push(pop() / op2);
-                    else
-                        printf("error: zero divisor");
-                    break;
-                case REM:
-                    op2 = pop();
-                    if (op2 != 0.0)
-                        push((int) pop() % (int) op2);
-                    else
-                        printf("error: zero divisor");
-                    break;
-                case PRNT:
-                    print = 1;
-                    break;
-                case DUP:
-                    op2 = pop();
-                    push(op2);
-                    push(op2);
-                    break;
-                case SWP:
-                    op1 = pop();
-                    op2 = pop();
-                    push(op1);
-                    push(op2);
-                    break;
-                case CLR:
-                    clear();
-                    break;
-                case SIN:
-                    push(sin(pop()));
-                    break;
-                case COS:
-                    push(cos(pop()));
-                    break;
-                case TAN:
-                    push(tan(pop()));
-                    break;
-                case SQRT:
-                    push(sqrt(pop()));
-                    break;
-                case EXP:
-                    push(exp(pop()));
-                    break;
-                case POW:
-                    op2 = pop();
-                    push(pow(pop(), op2));
-                    break;
-                case WRITE:
-                    if (strlen(word) != 2) printf("error: only single-letter names for variables are allowed.\nName given: %s\n", word);
-                    else
-                    if ('a' <= word[1] && word[1] <= 'z')
-                        vars[word[1] - 'a'] = pop();
-                    break;
-                case READ:
-                    if (strlen(word) != 2) printf("error: only single-letter names for variables are allowed.\nName given: %s\n", word);
-                    else
-                    if ('a' <= word[1] && word[1] <= 'z')
-                        push(vars[word[1] - 'a']);
-                    else if (word[1] == '?')
-                        push(last);
-                    else printf("error: unknown variable name %c\n", word[1]);
-                    break;
-                case UNKWN_CMD:
-                    printf("error: unknown command %s\n", word);
-                    break;
-                case CLRSCR:
-                    system("clear");
-                    break;
-                case EXIT:
-                    return 0;
-                    break;
-                case HELP:
-                    print_help();
-                    break;
-                default:
-                    printf("error: unhandled op with number %d for `%s`", type, word);
-                    break;
+    if (argc > 1) {
+        while (--argc > 0) {
+            execute_word(*++argv);
+        }
+        if (check_stack()) {
+            last = pop();
+            if (check_stack()) {
+                //more than one - print entire stack
+                printf("Whole stack: %.8g", last);
+                while (check_stack())
+                    printf(" %.8g", pop());
+            }
+            else {
+                printf("%.8g", last);
+                if (print) {
+                    push(last);
+                    print = 0;
+                }
             }
         }
+        putchar('\n');
+        return 0;
+    }
+
+    /* interactive calculator */
+    printf("ULTIMATE REVERSE POLISH CALCULATOR V2.0 (URVPC2)\nUse `help` for available features.\n>> ");
+    while ((get_line(line, MAXLINE)) > 0) {
+        line_pos=0;
+        while (read_word(line, word) > 0)
+            if (execute_word(word)) {
+                return 0;
+                putchar('\n');
+            }
         if (check_stack()) {
             last = pop();
             printf("\t%.8g\n", last);
@@ -161,9 +102,111 @@ int main(void) {
         }
         printf(">> ");
     }
-    puts("\nExiting...");
+    putchar('\n');
     return 0;
 }
+int execute_word(char word[]) {
+    int type;
+    double op1, op2;
+    static double vars[26];
+    switch ((type = optype(word))) {
+        case NUMBER:
+            push(atof(word));
+            break;
+        case PLUS:
+            push(pop() + pop());
+            break;
+        case MUL:
+            push(pop() * pop());
+            break;
+        case MINUS:
+            op2 = pop();
+            push(pop() - op2);
+            break;
+        case DIV:
+            op2 = pop();
+            if (op2 != 0.0)
+                push(pop() / op2);
+            else
+                printf("error: zero divisor");
+            break;
+        case REM:
+            op2 = pop();
+            if (op2 != 0.0)
+                push((int) pop() % (int) op2);
+            else
+                printf("error: zero divisor");
+            break;
+        case PRNT:
+            print = 1;
+            break;
+        case DUP:
+            op2 = pop();
+            push(op2);
+            push(op2);
+            break;
+        case SWP:
+            op1 = pop();
+            op2 = pop();
+            push(op1);
+            push(op2);
+            break;
+        case CLR:
+            clear();
+            break;
+        case SIN:
+            push(sin(pop()));
+            break;
+        case COS:
+            push(cos(pop()));
+            break;
+        case TAN:
+            push(tan(pop()));
+            break;
+        case SQRT:
+            push(sqrt(pop()));
+            break;
+        case EXP:
+            push(exp(pop()));
+            break;
+        case POW:
+            op2 = pop();
+            push(pow(pop(), op2));
+            break;
+        case WRITE:
+            if (strlen(word) != 2) printf("error: only single-letter names for variables are allowed.\nName given: %s\n", word);
+            else
+            if ('a' <= word[1] && word[1] <= 'z')
+                vars[word[1] - 'a'] = pop();
+            break;
+        case READ:
+            if (strlen(word) != 2) printf("error: only single-letter names for variables are allowed.\nName given: %s\n", word);
+            else
+            if ('a' <= word[1] && word[1] <= 'z')
+                push(vars[word[1] - 'a']);
+            else if (word[1] == '?')
+                push(last);
+            else printf("error: unknown variable name %c\n", word[1]);
+            break;
+        case UNKWN_CMD:
+            printf("error: unknown command %s\n", word);
+            break;
+        case CLRSCR:
+            system(clrscr);
+            break;
+        case EXIT:
+            return 1;
+            break;
+        case HELP:
+            print_help();
+            break;
+        default:
+            printf("error: unhandled op with number %d for `%s`", type, word);
+            break;
+    }
+    return 0;
+}
+
 
 int read_word(char line[], char word[]) {
     int j = 0;
@@ -262,7 +305,6 @@ void print_help(void) {
 "Any one-letter name is allowed.\n"
 "Use '$x' to read the value from a variable and push it on top of the stack.\n"
 "There is a special variable '$?' which stores the last printed value."
-//maybe value printed without 'p'??
 );
     
 }

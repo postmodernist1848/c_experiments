@@ -5,7 +5,7 @@
 
 #define MAXOP 100
 #define NUMBER '0'
-#define tracing 0
+#define tracing 1
 
 int getop(char[]);
 void push(double);
@@ -132,6 +132,7 @@ double pop(void) {
     }
     else {
         printf("error: stack empty\n");
+        exit(69);
         return 0.0;
     }
 }
@@ -145,11 +146,23 @@ int getch(void);
 void ungetch(int);
 
 int getop(char s[]) {
-    int i=0, c; 
+    int i=0; static int lastc; 
+    int c;
 
-    while ((s[0] = c = getch()) == ' ' || c == '\t')
-        ;
-    if (c == '\n' || c == EOF) return c;
+    if (lastc == 0) {
+        c = getch();
+    }
+    else { 
+        c = lastc; 
+        lastc = 0;
+    }
+
+    while ((s[0] = c) == ' ' || c == '\t')
+        c = getch();
+
+    if (c == '\n' || c == EOF) {  
+        return c;
+    }
 
     while (!isspace(c) && c != EOF) {
         s[i++] = c;
@@ -157,7 +170,7 @@ int getop(char s[]) {
     }
     s[i] = '\0';
     //check what happens if it's EOF
-    if (c != EOF) ungetch(c);
+    if (c != EOF) lastc = c;
     if (s[0] == '@') return WRITE;
     else if (s[0] == '$') return READ;
     else if (strcmp(s, "sin") == 0) return SIN;
