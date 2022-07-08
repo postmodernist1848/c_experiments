@@ -1,3 +1,4 @@
+/* freq - count and print words sorted by the number of occurences */
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

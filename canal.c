@@ -1,3 +1,8 @@
+/* cAnal - analyze c file by counting the number of occurences of words in groups,
+* groups being defined by first n characters.
+* Default n is 6. It can be defined from the command-line.
+* Usage: canal -[n]
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

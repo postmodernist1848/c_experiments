@@ -1,3 +1,5 @@
+/* crossref - create an automatic reference page to terms in text 
+ * words are filtered with a rule defined in isimportant() function */
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
