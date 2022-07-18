@@ -1,5 +1,7 @@
+/* replace some characters with corresponding escape sequences or replace them with these characters */
 #include <stdio.h>
 
+/* replace newlines and tabs with \n and \t while copying from s to t */
 void escape(char s[], char t[]) {
 
 
@@ -13,6 +15,8 @@ void escape(char s[], char t[]) {
         }
     }
 }
+
+/* replace escape sequences \n and \t with newlines and tabs while copying from s to t */
 void unescape(char s[], char t[]) {
 
     int j;

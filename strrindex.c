@@ -1,6 +1,8 @@
+/* find the rightmost occurence of a string in another string */
 #include <stdio.h>
 #include <string.h>
 
+/* returns an index of the rightmost occurence of t in s */
 int strrindex(char s[], char t[]) {
 
     int i, j, k;

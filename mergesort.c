@@ -19,10 +19,10 @@ void merge_sort(int *arr, int len) {
         int L[mid], R[mid + len % 2];
 
         for (int k = 0; k < mid; k++)
-        L[k] = arr[k];
+            L[k] = arr[k];
         
         for (int k = 0; k < mid + len % 2; k++)
-        R[k] = arr[mid + k];
+            R[k] = arr[mid + k];
 
         while (i < mid && j < mid + len % 2) {
             if (L[i] < R[j]) {

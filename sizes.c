@@ -1,3 +1,4 @@
+/* print sizes of different types in C */
 #include <stdio.h>
 #include <stddef.h>
 

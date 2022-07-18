@@ -1,3 +1,4 @@
+/*an attempt at so-called type punning*/
 #include <stdio.h>
 
 int foo(void * a, void * b){
@@ -13,4 +14,4 @@ int main(void) {
     printf("%zu\n", sizeof(p) * 8);
     return 0;
 }
-//an attempt at so-called type punning
+

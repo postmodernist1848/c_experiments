@@ -1,14 +1,17 @@
+/* excersizes in string-number conversion and recursive functions */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #define swap(t, x, y) { t temp = x; x = y; y = temp; }
 
+/*reverse int array s */
 void reverse(char s[]) {
     char temp;
     for (int i=0, j=strlen(s) - 1; i < j; i++, j--)
         temp = s[i], s[i] = s[j], s[j] = temp;
 }
 
+/* recursive version of reverse */
 void reverse_re(char s[]) 
 {
     static int i;
@@ -80,28 +83,40 @@ void strncpy_ptr(char *s, char *t, int n) {
     while (n-- && (*s++ = *t++));
 }
 
-void strncat_ptr(s, t, n) {
-
-}
-
-void strncmp_ptr(s, t, n) {
-
-}
-
 void strcat_ptr(char *s, char *t) {
     while (*s) s++;
     while ((*s++ = *t++));
 }
 
+/* return 1 if the last characters of s match t */
 int endswith(char *s, char *t) {
     int s_len = strlen(s), t_len = strlen(t);
     return (s_len >= t_len) && !(strcmp(s + s_len - t_len, t));
 }
 
-int main (void) {
-    char a[128] = "abry";
-    char b[128] = "qwerty";
+/* get hex int from stdin */
+long htoi(char * hex) {
+    int i;
+    long res = 0;
+    if (hex[0] == '0' && (hex[1] == 'x' || hex[1] == 'X'))
+        i = 2;
+    else
+        i = 0;
 
-    strncpy_ptr(s, t, n);
-
-}
+    while (hex[i] != '\0') {
+        int digit_value;
+        if ('0' <= hex[i] && hex[i] <= '9')
+            digit_value = hex[i] - '0';
+        else if ('A' <= hex[i] && hex[i] <= 'F')
+            digit_value = hex[i] - 'A' + 10;
+        else if ('a' <= hex[i] && hex[i] <= 'f')
+                digit_value = hex[i] - 'a' + 10;
+        else {
+            fprintf(stderr, "Error: wrong symbol \'%c\'", hex[i]);
+            exit(1);
+        }   
+        res = res * 16 + digit_value;
+        ++i;
+        }
+    return res;
+    }

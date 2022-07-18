@@ -1,3 +1,9 @@
+/* 
+ *
+ * Ultimate reverse polish calculator.
+ * Use 'help' for help.
+ *
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

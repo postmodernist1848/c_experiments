@@ -1,3 +1,4 @@
+/* My implementation of atof with an optional exponent */
 #include <stdio.h>
 #include <ctype.h>
 

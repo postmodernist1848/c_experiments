@@ -1,3 +1,4 @@
+/* a little snippet from k&r for printing an int array in collums */
 #include <stdio.h>
 #define n 55
 int main (void) {

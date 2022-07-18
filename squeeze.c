@@ -1,5 +1,15 @@
+/* remove all occurances of characters from one string in another */ 
+
 #include <stdio.h>
-#include "contains.h"
+
+/* test if string s contains character c */
+int contains(char s[], char c) {
+    int i = 0;
+    while (s[i] != '\0') {
+        if (s[i++] == c) return 1;
+    }
+    return 0;
+}
 
 /* remove all occurances of characters from s2 in s1 */ 
 void squeeze(char s1[], char s2[]) {

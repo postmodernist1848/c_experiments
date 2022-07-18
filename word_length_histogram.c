@@ -1,3 +1,4 @@
+/* print a HISTOGRAM of word lengths from the stdandard input*/
 #include <stdio.h>
 #include <string.h>
 #define MAX_WORD_LEN 20

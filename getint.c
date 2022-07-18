@@ -1,3 +1,4 @@
+/* get an int from stdin. Similar to atoi. */
 #include <stdio.h>
 #include <ctype.h>
 

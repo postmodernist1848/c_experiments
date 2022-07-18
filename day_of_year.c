@@ -1,3 +1,5 @@
+/* print a date of the nth day in a given year
+ * or the day number of a date */
 #include <stdio.h>
 
 static char daytab[2][13] = {
@@ -5,6 +7,7 @@ static char daytab[2][13] = {
     {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 };
 
+/* returns the day number for a given date */
 int day_of_year(int year, int month, int day) {
     int i, leap;
 
@@ -18,6 +21,7 @@ int day_of_year(int year, int month, int day) {
     return day;
 }
 
+/* puts the date of nth day in the corresponding variables pointed by pday and pmonth pointers */
 void month_day(int year, int yearday, int *pmonth, int *pday) {
     int i, leap;
 

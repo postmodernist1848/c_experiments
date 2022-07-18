@@ -1,3 +1,7 @@
+/* ascii_table - print ascii codes and the corresponding characters
+ * between '!' (33) and '~' (126)
+ */
+
 #include <stdio.h>
 
 #define ROWS 15

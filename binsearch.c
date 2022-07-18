@@ -1,3 +1,4 @@
+/* A binary search implementaion for arrays of ints */
 #include <stdio.h>
 
 

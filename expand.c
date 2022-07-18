@@ -1,3 +1,5 @@
+/* expand shorthand notations like a-z or 0-3 from one string into another */
+
 #include <stdio.h>
 // expands shorthand notations like a-z or 0-3 from s1 into s2
 void expand(char s1[], char s2[]) {
