@@ -1,4 +1,4 @@
-/* print input in a sensible way */
+/* print input in a "sensible way" */
 #include <stdio.h>
 
 #define MAXLINE 256

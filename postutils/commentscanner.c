@@ -30,7 +30,7 @@ int main (int argc, char **argv) {
     DIR *dr = opendir(".");
     while ((de = readdir(dr)) != NULL) {
         len = strlen(de->d_name);
-        if (len > 1 && de->d_type == DT_REG && strcmp(de->d_name + len - 2, ".c") == 0)
+        if (len > 2 && de->d_type == DT_REG && strcmp(de->d_name + len - 2, ".c") == 0)
             check(de->d_name);
     }
     closedir(dr);
