@@ -5,6 +5,31 @@
 
 #define MAX_PATH 1024
 
+size_t g_total;
+int print_only_total;
+
+void print_human_size(size_t size, char *name) {
+    char quantity='B';
+    double formated_size = size;
+    if (formated_size > 1024) {
+        formated_size /= 1024;
+        quantity = 'K';
+    }
+    if (formated_size > 1024) {
+        formated_size /= 1024;
+        quantity = 'M';
+    }
+    if (formated_size > 1024) {
+        formated_size /= 1024;
+        quantity = 'G';
+    }
+
+    if (quantity == 'B')
+        printf("%8.lf %s\n", formated_size, name);
+    else
+        printf("%8.1lf%c %s\n", formated_size, quantity, name);
+}
+
 void dirwalk(char *dir, void (*fcn)(char *)) {
     char name[MAX_PATH];
     struct dirent *dp;
@@ -30,6 +55,9 @@ void dirwalk(char *dir, void (*fcn)(char *)) {
 
 void fsize(char *name) {
     struct stat stbuf;
+    size_t len = strlen(name);
+    if (name[len - 1] == '/')
+        name[len - 1] = '\0';
 
     if (stat(name, &stbuf) == -1) {
         fprintf(stderr, "fsize: can't access %s\n", name);
@@ -37,16 +65,36 @@ void fsize(char *name) {
     }
     if ((stbuf.st_mode & S_IFMT) == S_IFDIR)
         dirwalk(name, fsize);
-    printf("%8ld %s\n", stbuf.st_size, name);
+
+    g_total += stbuf.st_size;
+    if (!print_only_total)
+        print_human_size(stbuf.st_size, name);
 }
 
-int main (int argc, char *argv[]) {
 
-    if (argc == 1)
+int main (int argc, char *argv[]) {
+    int met_path = 0;
+
+    while (--argc) {
+        if ((*++argv)[0] == '-') {
+            if (strcmp(*argv, "-t") == 0) {
+                print_only_total = 1;
+            }
+            else {
+                fprintf(stderr, "unknown argument '%s'", *argv);
+                return 1;
+            }
+        }
+        else {
+            fsize(*argv);
+            met_path = 1;
+        }
+    }
+
+    if (!met_path)
         fsize(".");
-    else
-        while (--argc > 0)
-            fsize(*++argv);
+
+    print_human_size(g_total, "total");
 
     return 0;
 }

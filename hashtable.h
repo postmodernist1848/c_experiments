@@ -1,3 +1,6 @@
+#ifndef HASHTABLE_H_
+#define HASHTABLE_H_
+
 #include <stdlib.h>
 
 typedef struct nlist {
@@ -19,3 +22,5 @@ int undef(char *name, Hashtable *hashtab);
 //possibly unneeded functions
 unsigned hash(char *s, size_t hashsize);
 void print_value_of(char *key, Hashtable *hashtab);
+
+#endif //HASHTABLE_H_
